@@ -1,0 +1,4 @@
+jdk:
+  - openjdk11
+install:
+  - ./mill -i plugin[0.10.11].publishM2Local
