@@ -33,19 +33,9 @@ trait CiReleaseModule extends PublishModule {
     */
   def sonatypeHost: Option[SonatypeHost] = None
 
-  override def sonatypeUri: String = sonatypeHost match {
-    case Some(SonatypeHost.Legacy) => "https://oss.sonatype.org/service/local"
-    case Some(SonatypeHost.s01) => "https://s01.oss.sonatype.org/service/local"
-    case None                   => super.sonatypeUri
-  }
+  override def sonatypeUri: String = sonatypeHost.map(_.uri).getOrElse(super.sonatypeUri)
 
-  override def sonatypeSnapshotUri: String = sonatypeHost match {
-    case Some(SonatypeHost.Legacy) =>
-      "https://oss.sonatype.org/content/repositories/snapshots"
-    case Some(SonatypeHost.s01) =>
-      "https://s01.oss.sonatype.org/content/repositories/snapshots"
-    case None => super.sonatypeSnapshotUri
-  }
+  override def sonatypeSnapshotUri: String = sonatypeHost.map(_.snapshotUri).getOrElse(super.sonatypeSnapshotUri)
 
   def stagingRelease: Boolean = true
 }
